@@ -1,0 +1,11 @@
+{
+    "name" : "fan_status",
+    "description" : "Tuf fan monitor",
+    "shell-version" : [
+        "3.36",
+        "40"
+    ],
+    "url" : "",
+    "uuid" : "fan_status@Marc-Pierre-Barbier.github.com",
+    "version" : 1.1
+}
