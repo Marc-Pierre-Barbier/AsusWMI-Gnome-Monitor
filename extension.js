@@ -8,7 +8,7 @@ const ByteArray = imports.byteArray
 let panelButton;
 
 
-const statuses = ["auto","fast","silent"]
+const statuses = ["auto","fast","silent","err"]
 
 function init () {
     // Create a Button with "Hello World" text
@@ -25,10 +25,14 @@ function init () {
 }
 
 function readFile() {
-    const array = GLib.file_get_contents("/sys/devices/platform/faustus/throttle_thermal_policy")[1]
-    const status = parseInt(ByteArray.toString(array))
-    GLib.free(array)
-    return status
+    try {
+        const array = GLib.file_get_contents("/sys/devices/platform/faustus/throttle_thermal_policy")[1]
+        const status = parseInt(ByteArray.toString(array))
+        GLib.free(array)
+        return status
+    } catch (e) {
+        return 3
+    }
 }
 
 function update() {

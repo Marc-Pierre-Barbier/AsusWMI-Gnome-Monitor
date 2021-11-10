@@ -3,7 +3,8 @@
     "description" : "Tuf fan monitor",
     "shell-version" : [
         "3.36",
-        "40"
+        "40",
+        "41"
     ],
     "url" : "",
     "uuid" : "fan_status@Marc-Pierre-Barbier.github.com",
