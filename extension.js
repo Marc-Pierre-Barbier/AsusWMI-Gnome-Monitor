@@ -8,7 +8,7 @@ const ByteArray = imports.byteArray
 let panelButton;
 
 
-const statuses = ["auto","fast","silent","err"]
+const statuses = ["balanced","fast","silent","err"]
 
 function init () {
     // Create a Button with "Hello World" text
@@ -17,16 +17,16 @@ function init () {
     });
 
     //Gio.monitor doesn't trigger. maybe it considier throttle_thermal_policy as a device ?
-    Mainloop.timeout_add(300, function () { 
+    Mainloop.timeout_add(300, function () {
         update()
         return true
-    });       
+    });
     update()
 }
 
 function readFile() {
     try {
-        const array = GLib.file_get_contents("/sys/devices/platform/faustus/throttle_thermal_policy")[1]
+        const array = GLib.file_get_contents("/sys/devices/platform/asus-nb-wmi/throttle_thermal_policy")[1]
         const status = parseInt(ByteArray.toString(array))
         GLib.free(array)
         return status
@@ -53,4 +53,3 @@ function disable () {
     // Remove the added button from panel
     Main.panel._rightBox.remove_child(panelButton);
 }
-
