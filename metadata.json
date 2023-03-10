@@ -2,14 +2,10 @@
     "name" : "fan_status",
     "description" : "Tuf fan monitor",
     "shell-version" : [
-        "3.36",
-        "40",
-        "41",
-        "42",
         "43",
         "44"
     ],
-    "url" : "",
+    "url" : "https://github.com/Marc-Pierre-Barbier/Faustus-Gnome-Monitor",
     "uuid" : "fan_status@Marc-Pierre-Barbier.github.com",
-    "version" : 1.2
+    "version" : 1.3
 }
