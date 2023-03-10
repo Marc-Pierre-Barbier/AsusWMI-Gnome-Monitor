@@ -1,27 +1,18 @@
-// Example #1
-
 const {St, Clutter, GLib} = imports.gi
 const Main = imports.ui.main
 const Mainloop = imports.mainloop
 const ByteArray = imports.byteArray
 
 let panelButton;
+let loopId;
+let panelButtonText;
 
-
-const statuses = ["balanced","fast","silent","err"]
+//unstable WILL lead to thermal throttling and is relatively a bad idea
+// instead of calling it turbo i through to would be more honest to call it unstable
+const statuses = ["performance","unstable","silent","err","loading"]
 
 function init () {
-    // Create a Button with "Hello World" text
-    panelButton = new St.Bin({
-        style_class : "panel-button",
-    });
 
-    //Gio.monitor doesn't trigger. maybe it considier throttle_thermal_policy as a device ?
-    Mainloop.timeout_add(300, function () {
-        update()
-        return true
-    });
-    update()
 }
 
 function readFile() {
@@ -37,19 +28,34 @@ function readFile() {
 
 function update() {
     const status = readFile();
-    let panelButtonText = new St.Label({
-        text : statuses[status],
-        y_align: Clutter.ActorAlign.CENTER,
-    });
-    panelButton.set_child(panelButtonText);
+    panelButtonText.set_text(statuses[status])
 }
 
 function enable () {
     // Add the button to the panel
+    panelButton = new St.Bin({
+        style_class : "panel-button",
+    });
+    panelButtonText = new St.Label({
+        text : statuses[4],
+        y_align: Clutter.ActorAlign.CENTER,
+    });
+    panelButton.set_child(panelButtonText);
+
     Main.panel._rightBox.insert_child_at_index(panelButton, 0);
+
+    //Gio.monitor doesn't trigger. maybe it considier throttle_thermal_policy as a device ?
+    loopId = Mainloop.timeout_add(300, function () {
+        update();
+        return GLib.SOURCE_CONTINUE;
+    });
+    update()
 }
 
 function disable () {
     // Remove the added button from panel
     Main.panel._rightBox.remove_child(panelButton);
+    GLib.Source.remove(loopId)
+    loopId = null
+    panelButton = null;
 }
